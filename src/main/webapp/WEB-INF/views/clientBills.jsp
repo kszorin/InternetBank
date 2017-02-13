@@ -33,7 +33,7 @@
         </jstl:otherwise>
     </jstl:choose>
     <h3>Добавление нового счёта:</h3>
-    <spring:form method="get"  modelAttribute="billModel" action="/client-bills/${client.id}/add-bill">
+    <spring:form method="post"  modelAttribute="billModel" action="/client-bills/${client.id}/add-bill">
         <table cellpadding="5" cellspacing="5">
             <tbody>
             <tr>
@@ -41,6 +41,25 @@
             </tr>
             <tr>
                 <spring:hidden path="idClient" value="${client.id}" />
+                <th><spring:button>Добавить</spring:button></th><th></th>
+            </tr>
+            </tbody>
+        </table>
+    </spring:form>
+    <h3>Добавление новой транзакции:</h3>
+    <spring:form method="post"  modelAttribute="transactionModel" action="/client-bills/${client.id}/add-transaction">
+        <table cellpadding="5" cellspacing="5">
+            <tbody>
+            <tr>
+                <th align="left">Счёт текущего клиента:</th><th><spring:select path="idBillSender"> <spring:options items="${listBillIds}" /></spring:select></th>
+            </tr>
+            <tr>
+                <th align="left">Счёт второго клиента:</th><th><spring:input path="idBillRecipient"/></th>
+            </tr>
+            <tr>
+                <th align="left">Сумма перевода:</th><th><spring:input path="amount"/></th>
+            </tr>
+            <tr>
                 <th><spring:button>Добавить</spring:button></th><th></th>
             </tr>
             </tbody>

@@ -3,6 +3,7 @@ package kszorin.internetbank.implementations;
 import kszorin.internetbank.dao.BillDao;
 import kszorin.internetbank.models.Bill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.InterruptibleBatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +31,7 @@ public class BillDaoImpl implements BillDao {
         public Bill mapRow(ResultSet rs, int rowNum) throws SQLException {
             Bill bill = new Bill();
             bill.setId(rs.getInt("id"));
-            bill.setIdClient(rs.getInt("idClient"));
+            bill.setIdClient(rs.getInt("id_client"));
             bill.setSum(rs.getFloat("sum"));
             return bill;
         }
@@ -53,22 +55,32 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public void insert(Bill bill) {
-        String query = "insert into bills (idClient, sum) values (?, ?);";
+        String query = "INSERT INTO bills (id_client, sum) VALUES (?, ?);";
         jdbcTemplate.update(query, getPreparedStatementSetter(bill));
     }
 
     @Override
     public Bill getById(Integer id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM bills WHERE id=?", rowMapper, id);
+        return jdbcTemplate.queryForObject("SELECT * FROM bills WHERE id=?;", rowMapper, id);
     }
 
     @Override
     public List<Bill> getAll() {
-        return jdbcTemplate.query("SELECT * FROM bills", rowMapper);
+        return jdbcTemplate.query("SELECT * FROM bills;", rowMapper);
     }
 
     @Override
     public List<Bill> getAllByIdClient(Integer idClient) {
-        return jdbcTemplate.query("SELECT * FROM bills WHERE idClient=?", rowMapper, idClient);
+        return jdbcTemplate.query("SELECT * FROM bills WHERE id_client=?;", rowMapper, idClient);
+    }
+
+    @Override
+    public List<Integer> getBillIdsByIdClient(Integer idClient) {
+        List<Bill> listBills=jdbcTemplate.query("SELECT * FROM bills WHERE id_client=?;", rowMapper, idClient);
+        List<Integer> listIds = new ArrayList<Integer>();
+        //копируем в отдельный список только id
+        for (Bill bill: listBills)
+            listIds.add(bill.getId());
+        return listIds;
     }
 }

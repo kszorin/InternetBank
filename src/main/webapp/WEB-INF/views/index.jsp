@@ -41,7 +41,7 @@
     <jstl:if test="${resultString eq 'success'}">
         Клиент успешно добавлен!
     </jstl:if>
-    <spring:form method="get"  modelAttribute="clientModel" action="/add-client">
+    <spring:form method="post"  modelAttribute="clientModel" action="/add-client">
         <table cellpadding="5" cellspacing="5">
             <tbody>
                 <tr>

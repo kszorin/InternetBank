@@ -15,4 +15,6 @@ public interface BillDao {
     List<Bill> getAll();
 
     List<Bill> getAllByIdClient(Integer idClient);
+
+    List<Integer> getBillIdsByIdClient(Integer idClient);
 }

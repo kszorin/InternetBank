@@ -5,9 +5,9 @@ package kszorin.internetbank.models;
  */
 public class Transaction {
     private int id;
-    private int idBillSend;
-    private int idBillReceive;
-    private float sum;
+    private int idBillSender;
+    private int idBillRecipient;
+    private float amount;
 
     public int getId() {
         return id;
@@ -17,27 +17,27 @@ public class Transaction {
         this.id = id;
     }
 
-    public int getIdBillSend() {
-        return idBillSend;
+    public int getIdBillSender() {
+        return idBillSender;
     }
 
-    public void setIdBillSend(int idBillSend) {
-        this.idBillSend = idBillSend;
+    public void setIdBillSender(int idBillSender) {
+        this.idBillSender = idBillSender;
     }
 
-    public int getIdBillReceive() {
-        return idBillReceive;
+    public int getIdBillRecipient() {
+        return idBillRecipient;
     }
 
-    public void setIdBillReceive(int idBillReceive) {
-        this.idBillReceive = idBillReceive;
+    public void setIdBillRecipient(int idBillRecipient) {
+        this.idBillRecipient = idBillRecipient;
     }
 
-    public float getSum() {
-        return sum;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setSum(float sum) {
-        this.sum = sum;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 }

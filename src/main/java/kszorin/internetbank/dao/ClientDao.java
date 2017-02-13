@@ -13,4 +13,5 @@ public interface ClientDao {
     Client getById(Integer id);
 
     List<Client> getAll();
+
 }

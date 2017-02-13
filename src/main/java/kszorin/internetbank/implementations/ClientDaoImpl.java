@@ -57,17 +57,17 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public void insert(Client client) {
-        String query = "insert into clients (surname, name, patronymic, address) values (?, ?, ?, ?);";
+        String query = "INSERT INTO clients (surname, name, patronymic, address) VALUES (?, ?, ?, ?);";
         jdbcTemplate.update(query, getPreparedStatementSetter(client));
     }
 
     @Override
     public Client getById(Integer id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM clients WHERE id=?", rowMapper, id);
+        return jdbcTemplate.queryForObject("SELECT * FROM clients WHERE id=?;", rowMapper, id);
     }
 
     @Override
     public List<Client> getAll() {
-        return jdbcTemplate.query("SELECT * FROM clients", rowMapper);
+        return jdbcTemplate.query("SELECT * FROM clients;", rowMapper);
     }
 }

@@ -23,5 +23,6 @@
   <!-- declare spring DAO -->
   <bean id="clientDaoImpl" class="kszorin.internetbank.implementations.ClientDaoImpl"></bean>
   <bean id="billDaoImpl" class="kszorin.internetbank.implementations.BillDaoImpl"></bean>
+  <bean id="transactionDaoImpl" class="kszorin.internetbank.implementations.TransactionDaoImpl"></bean>
 
 </beans>

@@ -118,7 +118,7 @@ public class MainController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/client-bills/{idClient}/add-transaction", method = RequestMethod.GET)
+    @RequestMapping(value = "/client-bills/{idClient}/add-transaction", method = RequestMethod.POST)
     public ModelAndView addTransaction(@PathVariable(value="idClient") Integer idClient,  @ModelAttribute("transactionlModel") kszorin.internetbank.models.Transaction transaction) {
         ModelAndView modelAndView = new ModelAndView();
         //получаем и передаём инфу о клиенте

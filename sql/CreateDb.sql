@@ -16,7 +16,7 @@ create table bills
 (
 	id int unsigned not null auto_increment,
     idClient int unsigned not null,
-    sum float not null,
+    sum float default 0,
     primary key (id),
-    foreign key (id) references clients(id)
+    foreign key (idClient) references clients(id)
 )engine=InnoDB;

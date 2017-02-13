@@ -35,7 +35,13 @@
         </jstl:otherwise>
     </jstl:choose>
     <h3>Добавление нового клиента:</h3>
-    <spring:form method="get"  modelAttribute="clientModel" action="add-client">
+    <jstl:if test="${resultString eq 'error'}">
+        Ошибка! Все поля должны быть заполнены!
+    </jstl:if>
+    <jstl:if test="${resultString eq 'success'}">
+        Клиент успешно добавлен!
+    </jstl:if>
+    <spring:form method="get"  modelAttribute="clientModel" action="/add-client">
         <table cellpadding="5" cellspacing="5">
             <tbody>
                 <tr>

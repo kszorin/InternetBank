@@ -6,7 +6,8 @@ package kszorin.internetbank.models;
 public class Bill {
     private int id;
     private int idClient;
-    private float sum;
+
+    private float sum=0;
 
     public int getId() {
         return id;

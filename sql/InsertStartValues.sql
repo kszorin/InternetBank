@@ -7,5 +7,6 @@ values ('Филиппова', 'Анастасия', 'Карловна', 'г.Но
 insert into clients (surname, name, patronymic, address)
 values ('Звыкова', 'Лариса', 'Геннадьевна', 'г.Барнаул, ул.Ленина, 2 - 88');
 insert into bills (idClient, sum) values (1, 1000.30);
-insert into bills (idClient, sum) values (1, 500.50);
+insert into bills (idClient, sum) values (1, 500.54);
 insert into bills (idClient, sum) values (2, 300.12);
+insert into bills (idClient) values (3);

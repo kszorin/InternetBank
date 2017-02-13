@@ -26,7 +26,7 @@ public class MainController {
 
     /*First method on start application*/
     /*Попадаем сюда на старте приложения (см. параметры аннотации и настройки пути после деплоя) */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/")
     public ModelAndView allClients() {
         ModelAndView modelAndView = new ModelAndView();
         //получаем и передаём список клиентов
@@ -42,8 +42,18 @@ public class MainController {
     @RequestMapping(value = "/add-client", method = RequestMethod.GET)
     public ModelAndView addClient(@ModelAttribute("clientModel") kszorin.internetbank.models.Client client) {
         ModelAndView modelAndView = new ModelAndView();
-        //вставляем в БД нового клиента
-        clientDaoImpl.insert(client);
+        String result="";
+        //Проверка на пустые поля
+        if ((client.getSurname().trim().isEmpty() || client.getName().trim().isEmpty() ||
+                client.getPatronymic().trim().isEmpty() || client.getAddress().trim().isEmpty())) {
+            result="error";
+        }
+        else {
+            //вставляем в БД нового клиента
+            clientDaoImpl.insert(client);
+            result="success";
+        }
+        modelAndView.addObject("resultString", result);
         //получаем и передаём список клиентов
         List clients = clientDaoImpl.getAll();
         modelAndView.addObject("clientList", clients);
@@ -54,7 +64,7 @@ public class MainController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/client-bills/{idClient}", method = RequestMethod.GET)
+    @RequestMapping(value = "/client-bills/{idClient}")
     public ModelAndView showClientBills(@PathVariable(value="idClient") Integer idClient) {
         ModelAndView modelAndView = new ModelAndView();
         //получаем и передаём инфу о клиенте
@@ -63,6 +73,28 @@ public class MainController {
         //получаем и передаём список счетов
         List bills = billDaoImpl.getAllByIdClient(idClient);
         modelAndView.addObject("billList", bills);
+        //для формы добавления нового счёта
+        modelAndView.addObject("billModel", new kszorin.internetbank.models.Bill());
+
+        modelAndView.setViewName("clientBills");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/client-bills/{idClient}/add-bill", method = RequestMethod.GET)
+    public ModelAndView addBill(@PathVariable(value="idClient") Integer idClient, @ModelAttribute("billModel") kszorin.internetbank.models.Bill bill) {
+        ModelAndView modelAndView = new ModelAndView();
+        //получаем и передаём инфу о клиенте
+        Client client = clientDaoImpl.getById(idClient);
+        modelAndView.addObject("client", client);
+
+        //вставляем в БД новый счёт
+        billDaoImpl.insert(bill);
+        this.showClientBills(idClient);
+        //получаем и передаём список счетов
+        List bills = billDaoImpl.getAllByIdClient(idClient);
+        modelAndView.addObject("billList", bills);
+        //для формы добавления нового счёта
+        modelAndView.addObject("billModel", new kszorin.internetbank.models.Bill());
 
         modelAndView.setViewName("clientBills");
         return modelAndView;

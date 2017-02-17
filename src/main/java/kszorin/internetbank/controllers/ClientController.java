@@ -20,7 +20,7 @@ public class ClientController {
     ClientDaoImpl clientDaoImpl;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ModelAndView displayClientList(@ModelAttribute("newClient") kszorin.internetbank.models.Client newClient) {
+    public ModelAndView addNewAndDisplayClientList(@ModelAttribute("newClient") kszorin.internetbank.models.Client newClient) {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -38,6 +38,20 @@ public class ClientController {
             }
             modelAndView.addObject("resultString", result);
         }
+
+//        Получаем и передаём список клиентов.
+        List clientList = clientDaoImpl.getAll();
+        modelAndView.addObject("clientList", clientList);
+//        Для формы добавления нового клиента.
+        modelAndView.addObject("newClient", new kszorin.internetbank.models.Client());
+        modelAndView.setViewName("clientList");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView displayClientList() {
+
+        ModelAndView modelAndView = new ModelAndView();
 
 //        Получаем и передаём список клиентов.
         List clientList = clientDaoImpl.getAll();

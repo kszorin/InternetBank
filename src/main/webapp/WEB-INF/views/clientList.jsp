@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
-
 <html>
 <head>
     <title>ИНТЕРНЕТ-БАНК. Список клиентов</title>
@@ -18,13 +17,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <jstl:forEach var="client" items="${clientList}">
+                <jstl:forEach var="currentClient" items="${clientList}">
                     <tr>
-                        <td>${client.id}</td>
-                        <td><a href="/client-bills/${client.id}">${client.surname}</a></td>
-                        <td>${client.name}</td>
-                        <td>${client.patronymic}</td>
-                        <td>${client.address}</td>
+                        <td>${currentClient.id}</td>
+                        <td><a href="/clients/${currentClient.id}/bill-list">${currentClient.surname}</a></td>
+                        <td>${currentClient.name}</td>
+                        <td>${currentClient.patronymic}</td>
+                        <td>${currentClient.address}</td>
                     </tr>
                 </jstl:forEach>
                 </tbody>
@@ -41,7 +40,7 @@
     <jstl:if test="${resultString eq 'success'}">
         Клиент успешно добавлен!
     </jstl:if>
-    <spring:form method="post"  modelAttribute="clientModel" action="/add-client">
+    <spring:form method="post"  modelAttribute="newClient" action="/">
         <table cellpadding="5" cellspacing="5">
             <tbody>
                 <tr>

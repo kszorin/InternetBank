@@ -20,17 +20,17 @@ public class TransactionController {
     public ModelAndView addTransaction(@PathVariable(value="idClient") Integer idClient, @ModelAttribute("transactionlModel") kszorin.internetbank.models.Transaction transaction) {
         ModelAndView modelAndView = new ModelAndView();
         //получаем и передаём инфу о клиенте
-//        Client client = clientDaoImpl.getById(idClient);
+//        Client client = clientDao.getById(idClient);
 //        modelAndView.addObject("client", client);
 
         //получаем и передаём список счетов
-//        List bills = billDaoImpl.getAllByIdClient(idClient);
+//        List bills = billDao.getAllByIdClient(idClient);
 //        modelAndView.addObject("billList", bills);
         //для формы добавления нового счёта
         modelAndView.addObject("billModel", new kszorin.internetbank.models.Bill());
 
         //для списка id счетов
-//        modelAndView.addObject("listBillIds", billDaoImpl.getBillIdsByIdClient(idClient));
+//        modelAndView.addObject("listBillIds", billDao.getBillIdsByIdClient(idClient));
         //для формы добавления новой транзакции
         modelAndView.addObject("transactionModel", new kszorin.internetbank.models.Transaction());
 

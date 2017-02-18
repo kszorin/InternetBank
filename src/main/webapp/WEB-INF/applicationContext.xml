@@ -21,8 +21,14 @@
   </bean>
 
   <!-- declare spring DAO -->
-  <bean id="clientDaoImpl" class="kszorin.internetbank.implementations.ClientDaoImpl"></bean>
-  <bean id="billDaoImpl" class="kszorin.internetbank.implementations.BillDaoImpl"></bean>
-  <bean id="transactionDaoImpl" class="kszorin.internetbank.implementations.TransactionDaoImpl"></bean>
+  <bean id="clientDao" class="kszorin.internetbank.implementations.ClientDaoImpl">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  <bean id="billDao" class="kszorin.internetbank.implementations.BillDaoImpl">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  <bean id="transactionDao" class="kszorin.internetbank.implementations.TransactionDaoImpl">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
 
 </beans>

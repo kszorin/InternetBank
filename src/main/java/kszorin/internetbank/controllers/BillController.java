@@ -1,7 +1,7 @@
 package kszorin.internetbank.controllers;
 
-import kszorin.internetbank.implementations.BillDaoImpl;
-import kszorin.internetbank.implementations.ClientDaoImpl;
+import kszorin.internetbank.dao.BillDao;
+import kszorin.internetbank.dao.ClientDao;
 import kszorin.internetbank.models.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,27 +20,47 @@ import java.util.List;
 @RequestMapping(value = "/clients")
 public class BillController {
     @Autowired
-    BillDaoImpl billDaoImpl;
+    BillDao billDao;
     @Autowired
-    ClientDaoImpl clientDaoImpl;
+    ClientDao clientDao;
 
-    @RequestMapping(value = "/{idClient}/bill-list", method = RequestMethod.POST)
-    public ModelAndView showClientBills(@PathVariable(value="idClient") Integer idClient, @ModelAttribute("newBill") kszorin.internetbank.models.Bill newBill) {
+    @RequestMapping(value = "/{idClient}/bill-list", method = RequestMethod.GET)
+    public ModelAndView showClientBills(@PathVariable(value="idClient") Integer idClient) {
         ModelAndView modelAndView = new ModelAndView();
 
-        //вставляем в БД новый счёт
-        billDaoImpl.insert(newBill);
-
 //        Получаем и передаём инфу о клиенте.
-        Client client = clientDaoImpl.getById(idClient);
+        Client client = clientDao.getById(idClient);
         modelAndView.addObject("client", client);
 //        Получаем и передаём список счетов.
-        List billList = billDaoImpl.getAllByIdClient(idClient);
+        List billList = billDao.getAllByIdClient(idClient);
         modelAndView.addObject("billList", billList);
 //        Для формы добавления нового счёта.
         modelAndView.addObject("newBill", new kszorin.internetbank.models.Bill());
 //        Для списка id счетов.
-        modelAndView.addObject("listBillIds", billDaoImpl.getBillIdsByIdClient(idClient));
+        modelAndView.addObject("listBillIds", billDao.getBillIdsByIdClient(idClient));
+//        Для формы добавления новой транзакции.
+        modelAndView.addObject("newTransaction", new kszorin.internetbank.models.Transaction());
+
+        modelAndView.setViewName("billList");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/{idClient}/bill-list", method = RequestMethod.POST)
+    public ModelAndView addNewAndShowClientBills(@PathVariable(value="idClient") Integer idClient, @ModelAttribute("newBill") kszorin.internetbank.models.Bill newBill) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        //вставляем в БД новый счёт
+        billDao.insert(newBill);
+//        Получаем и передаём инфу о клиенте.
+        Client client = clientDao.getById(idClient);
+        modelAndView.addObject("client", client);
+//        Получаем и передаём список счетов.
+        List billList = billDao.getAllByIdClient(idClient);
+        modelAndView.addObject("billList", billList);
+//        Для формы добавления нового счёта.
+        modelAndView.addObject("newBill", new kszorin.internetbank.models.Bill());
+//        Для списка id счетов.
+        modelAndView.addObject("listBillIds", billDao.getBillIdsByIdClient(idClient));
 //        Для формы добавления новой транзакции.
         modelAndView.addObject("newTransaction", new kszorin.internetbank.models.Transaction());
 

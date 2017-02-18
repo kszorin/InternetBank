@@ -1,6 +1,6 @@
 package kszorin.internetbank.controllers;
 
-import kszorin.internetbank.implementations.ClientDaoImpl;
+import kszorin.internetbank.dao.ClientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,13 +17,23 @@ import java.util.List;
 @Controller
 public class ClientController {
     @Autowired
-    ClientDaoImpl clientDaoImpl;
+    ClientDao clientDao;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView showClientList() {
+        ModelAndView modelAndView = new ModelAndView();
+//        Получаем из БД список клиентов и передаём в View.
+        List clientList = clientDao.getAll();
+        modelAndView.addObject("clientList", clientList);
+//        Создаём нового клиента для формы добавления нового клиента.
+        modelAndView.addObject("newClient", new kszorin.internetbank.models.Client());
+        modelAndView.setViewName("clientList");
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ModelAndView addNewAndDisplayClientList(@ModelAttribute("newClient") kszorin.internetbank.models.Client newClient) {
-
+    public ModelAndView addNewAndShowClientList(@ModelAttribute("newClient") kszorin.internetbank.models.Client newClient) {
         ModelAndView modelAndView = new ModelAndView();
-
 //        Проверка на добавление нового пользователя.
         if (newClient.getSurname()!= null) {
             String result="";
@@ -33,30 +43,16 @@ public class ClientController {
                 result = "error";
             } else {
 //        Вставляем в БД нового клиента.
-                clientDaoImpl.insert(newClient);
+                clientDao.insert(newClient);
                 result = "success";
             }
             modelAndView.addObject("resultString", result);
         }
 
-//        Получаем и передаём список клиентов.
-        List clientList = clientDaoImpl.getAll();
+//        Получаем из БД список клиентов и передаём в View.
+        List clientList = clientDao.getAll();
         modelAndView.addObject("clientList", clientList);
-//        Для формы добавления нового клиента.
-        modelAndView.addObject("newClient", new kszorin.internetbank.models.Client());
-        modelAndView.setViewName("clientList");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView displayClientList() {
-
-        ModelAndView modelAndView = new ModelAndView();
-
-//        Получаем и передаём список клиентов.
-        List clientList = clientDaoImpl.getAll();
-        modelAndView.addObject("clientList", clientList);
-//        Для формы добавления нового клиента.
+//        Создаём нового клиента для формы добавления нового клиента.
         modelAndView.addObject("newClient", new kszorin.internetbank.models.Client());
         modelAndView.setViewName("clientList");
         return modelAndView;

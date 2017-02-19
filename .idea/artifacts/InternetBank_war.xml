@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="InternetBank:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="internetbank.war">
-      <element id="artifact" artifact-name="InternetBank:war exploded" />
-    </root>
-  </artifact>
-</component>
